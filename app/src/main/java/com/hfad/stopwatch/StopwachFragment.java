@@ -4,40 +4,50 @@ package com.hfad.stopwatch;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StopwatchActivity extends Activity {
-
+public class StopwachFragment extends Fragment {
+    //Number of seconds displayed on the stopwatch
     private int seconds = 0;
+    //is the stopwatch running?
     private boolean running;
+    //
     private boolean wasRunning;
 
     @Override
-    protected void onCreate(Bundle savedInstance) {
+    public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_stopwatch);
-        runTimer();
-        if(savedInstance!=null)
-        {
-            seconds=savedInstance.getInt("seconds");
-            running=savedInstance.getBoolean("running");
-            wasRunning=savedInstance.getBoolean("wasRunning");
+        if (savedInstance != null) {
+            seconds = savedInstance.getInt("seconds");
+            running = savedInstance.getBoolean("running");
+            wasRunning = savedInstance.getBoolean("wasRunning");
 
+if(wasRunning)
+{
+    running=true;
 
+}
         }
-        runTimer();
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)
+    {
+        View layout=inflater.inflate(R.layout.fragment_stopwach,container,false);
+        runTimer(layout);
+        return layout;
 
     }
     @Override
-    protected void onPause()
+    public void onPause()
     {
         super.onPause();
         wasRunning=running;
@@ -45,7 +55,7 @@ public class StopwatchActivity extends Activity {
 
     }
     @Override
-    protected void onResume()
+    public void onResume()
     {
         super.onResume();
         if(wasRunning)
@@ -78,12 +88,14 @@ public class StopwatchActivity extends Activity {
         seconds = 0;
 
     }
+    /*
     @Override
     protected void onStop(){
         super.onStop();
         wasRunning=running;
         running=false;
     }
+
     @Override
     protected void onStart(){
         super.onStart();
@@ -93,9 +105,9 @@ public class StopwatchActivity extends Activity {
 
         }
     }
-
-    private void runTimer(){
-        final TextView timeView=(TextView)findViewById(R.id.time_view);
+*/
+    private void runTimer(View view){
+        final TextView timeView=(TextView) view.findViewById(R.id.time_view);
         final Handler handler=new Handler();
         handler.post(new Runnable(){
 
